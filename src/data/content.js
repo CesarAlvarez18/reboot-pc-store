@@ -155,7 +155,7 @@ export const paymentMethods = [
 ];
 
 export const socialLinks = [
-  { label: 'Facebook', href: 'https://facebook.com', icon: 'Facebook' },
+  { label: 'Facebook', href: 'https://www.facebook.com/people/Reboot-PC-Store/61564574731858/', icon: 'Facebook' },
   { label: 'Instagram', href: 'https://instagram.com', icon: 'Instagram' },
   { label: 'TikTok', href: 'https://tiktok.com', icon: 'Music2' },
 ];
