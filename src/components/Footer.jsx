@@ -88,7 +88,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-brand-cyan"
                 >
-                  +57 300 123 4567
+                  +57 302 396 68 62
                 </a>
               </li>
             </ul>

@@ -1,7 +1,7 @@
 // Copy y datos centralizados de la landing. Mantener el contenido separado
 // de los componentes facilita futuras traducciones o integraciones con un CMS.
 
-export const WHATSAPP_NUMBER = '573001234567'; // TODO: reemplazar por el número real del negocio
+export const WHATSAPP_NUMBER = '573023966862'; // TODO: reemplazar por el número real del negocio
 
 export const buildWhatsAppLink = (message) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
