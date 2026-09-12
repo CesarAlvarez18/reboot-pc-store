@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Ingresar from './pages/dashboard/Ingresar';
 import Panel from './pages/dashboard/Panel';
+import EquipoForm from './pages/dashboard/EquipoForm';
 import RutaProtegida from './dashboard/RutaProtegida';
 
 export default function App() {
@@ -18,6 +19,14 @@ export default function App() {
         element={
           <RutaProtegida>
             <Panel />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/dashboard/equipos/nuevo"
+        element={
+          <RutaProtegida>
+            <EquipoForm />
           </RutaProtegida>
         }
       />

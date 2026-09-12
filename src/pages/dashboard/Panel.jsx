@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LogOut, MonitorCog, PackagePlus } from 'lucide-react';
 
 import { api } from '../../lib/api';
@@ -48,13 +48,13 @@ export default function Panel() {
           <h1 className="mt-6 font-display text-2xl font-bold">{copy.vacio.titulo}</h1>
           <p className="mt-3 text-slate-400">{copy.vacio.descripcion}</p>
 
-          <button
-            type="button"
+          <Link
+            to="/dashboard/equipos/nuevo"
             className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-cyan px-5 py-3 font-semibold text-brand-darker transition hover:brightness-110"
           >
             <PackagePlus className="h-5 w-5" aria-hidden="true" />
             {copy.vacio.boton}
-          </button>
+          </Link>
         </div>
       </main>
     </div>

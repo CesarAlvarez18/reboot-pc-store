@@ -6,6 +6,9 @@
 
 const BASE = '/api';
 
+const MENSAJE_SIN_CONEXION =
+  'No pudimos conectarnos. Revisa tu conexión e intenta de nuevo; lo que llenaste no se pierde.';
+
 function leerCookie(nombre) {
   const encontrada = document.cookie
     .split('; ')
@@ -53,9 +56,16 @@ async function pedir(ruta, { metodo = 'GET', datos, formulario } = {}) {
   try {
     respuesta = await fetch(`${BASE}${ruta}`, opciones);
   } catch {
-    // Sin internet en bodega, o el servidor caído: el mensaje tiene que decir qué
-    // hacer, no mostrar el error técnico.
-    throw new ErrorDeApi('No pudimos conectarnos. Revisa tu conexión e intenta de nuevo.');
+    // Sin señal en bodega: el mensaje tiene que decir qué hacer, no mostrar el
+    // error técnico.
+    throw new ErrorDeApi(MENSAJE_SIN_CONEXION);
+  }
+
+  // El servidor caído no hace que fetch falle: devuelve 502/503 a través del proxy
+  // o del borde de Railway. Para el técnico en bodega es el mismo problema que
+  // quedarse sin señal, así que el mensaje tiene que ser el mismo.
+  if (respuesta.status >= 500) {
+    throw new ErrorDeApi(MENSAJE_SIN_CONEXION, { estado: respuesta.status });
   }
 
   if (respuesta.status === 204) return null;
@@ -79,5 +89,12 @@ export const api = {
   salir: () => pedir('/auth/salir/', { metodo: 'POST' }),
   opciones: () => pedir('/opciones/'),
   equipos: () => pedir('/equipos/'),
+  crearEquipo: (datos) => pedir('/equipos/', { metodo: 'POST', datos }),
+  subirFoto: (idEquipo, archivo, orden) => {
+    const formulario = new FormData();
+    formulario.append('imagen', archivo);
+    formulario.append('orden', String(orden));
+    return pedir(`/equipos/${idEquipo}/fotos/`, { metodo: 'POST', formulario });
+  },
   equiposPublicos: () => pedir('/publico/equipos/'),
 };

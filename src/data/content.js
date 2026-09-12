@@ -184,3 +184,52 @@ export const panelContent = {
     },
   },
 };
+
+// Copy del formulario de registro de equipos. Igual que el resto del contenido,
+// se edita acá y no dentro del componente.
+export const formularioEquipo = {
+  titulo: 'Registrar equipo usado',
+  subtitulo: 'Queda guardado como borrador. Publicarlo es un paso aparte.',
+  volver: 'Volver al inventario',
+  campos: {
+    responsable: 'Nombre del técnico o almacén',
+    marca: 'Marca del equipo',
+    marcaOtra: '¿Cuál marca?',
+    procesador: 'Procesador',
+    procesadorOtro: '¿Cuál procesador?',
+    ram: 'Memoria RAM',
+    almacenamientoTipo: 'Tipo de almacenamiento',
+    almacenamientoCapacidad: 'Capacidad',
+    estadoBateria: 'Estado de la batería',
+    estadoEstetico: 'Estado estético del equipo',
+    garantia: 'Garantía que se ofrece',
+    costo: 'Costo del equipo (precio de compra)',
+    costoAyuda: 'Dato interno. El cliente nunca lo ve.',
+    precio: 'Precio sugerido de venta al público',
+    notas: 'Detalles adicionales o posibles fallas reportadas',
+    notasAyuda: 'Una tecla dura, una bisagra floja, un cargador que no es original.',
+  },
+  margen: {
+    etiqueta: 'Margen de este equipo',
+    perdida: 'Lo estás vendiendo por debajo de lo que costó.',
+  },
+  errores: {
+    obligatorio: 'Este campo es obligatorio.',
+    sinFotos: 'Agrega al menos una foto del equipo.',
+    guardar: 'No pudimos guardar el equipo. Revisa los campos marcados.',
+  },
+  avisos: {
+    perdidaTitulo: 'El precio queda por debajo del costo',
+    perdidaTexto: 'Puede ser a propósito. Si es así, confirma para guardar.',
+    duplicadoTitulo: 'Puede que este equipo ya esté registrado',
+    duplicadoTexto: 'Hay uno con las mismas características de hace poco:',
+    confirmar: 'Sí, guardar de todas formas',
+  },
+  fotos: {
+    subiendo: 'Guardando las fotos…',
+    fallaron: 'Algunas fotos no subieron. El equipo ya quedó guardado: reintenta solo las que fallaron.',
+  },
+  boton: 'Guardar equipo',
+  botonGuardando: 'Guardando…',
+  exito: 'Equipo guardado como borrador.',
+};
