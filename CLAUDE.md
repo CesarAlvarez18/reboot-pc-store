@@ -39,7 +39,8 @@ src/data/content.js     TODO el copy y los datos de la landing (centralizado)
 src/index.css           directivas de Tailwind + estilos base
 public/                 robots.txt, sitemap.xml
 .claude/launch.json     config del dev server para el preview (puerto 5173)
-.claude/skills/         skill `revision-final` (QA antes de publicar)
+.claude/skills/         skills del proyecto: `brainstorming` (definir un feature
+                        nuevo), `revision-final` (QA antes de publicar)
 Dockerfile              build de producción para Railway
 railway.json            builder = DOCKERFILE
 vite.config.js          `allowedHosts` para Railway + dominio propio
@@ -169,7 +170,37 @@ Para ver la landing corriendo usa el preview del Browser pane con la config
 `reboot-pc-store-dev` de `.claude/launch.json` — no arranques el dev server
 con Bash.
 
-Antes de dar por lista una entrega o hacer deploy, corre la skill
-**`revision-final`** (`.claude/skills/revision-final/`): revisa móvil, links
-roto, textos de relleno, imágenes que no cargan y consistencia de tono.
-Esa skill **solo reporta**, no corrige sin aprobación explícita.
+---
+
+## Skills del proyecto
+
+Dos skills en `.claude/skills/` cubren los dos extremos del ciclo de trabajo.
+Úsalas; no improvises el proceso que ya está documentado ahí.
+
+### `brainstorming` — al **empezar** un feature
+
+Cuando el usuario traiga una idea nueva a medio formar ("quiero agregar…",
+"vamos a hacer…", "necesito una sección/módulo/página"), corre este skill
+**antes de escribir código**. Hace preguntas para eliminar la ambigüedad del
+objetivo y cierra proponiendo 2 o 3 approaches concretos, con sus costos y
+trade-offs, para que el usuario elija cómo armar el plan.
+
+Existe porque el proyecto es hoy una SPA estática: features que suenan simples
+("que el cliente deje sus datos", "subir fotos del inventario") obligan a
+decidir si se abre backend y persistencia. Descubrirlo a mitad de la
+implementación significa botar trabajo.
+
+No aplica para bugs, ajustes de copy o cambios cosméticos de algo que ya
+existe, ni cuando el approach ya está elegido.
+
+> No confundir con la skill global `anthropic-skills:brainstorming`, que es
+> ideación genérica. La del proyecto es específica de features de este repo y
+> siempre termina en una decisión de approach.
+
+### `revision-final` — antes de **entregar** o desplegar
+
+Audita la landing contra un checklist de 5 puntos: móvil, botones y links
+rotos, textos de relleno, imágenes que no cargan, y consistencia de tono en
+el copy. Entrega un reporte priorizado.
+
+**Solo reporta** — no corrige nada sin aprobación explícita del usuario.
