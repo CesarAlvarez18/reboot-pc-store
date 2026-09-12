@@ -42,7 +42,7 @@ docs/specs/             especificaciones de features (YYYY-MM-DD-titulo.md)
 docs/plans/             planes de implementación (mismo slug que su spec)
 .claude/launch.json     config del dev server para el preview (puerto 5173)
 .claude/skills/         skills del proyecto: `brainstorming`, `design-spec`,
-                        `design-plan`, `revision-final`
+                        `design-plan`, `verify-after-changes`, `revision-final`
 Dockerfile              build de producción para Railway
 railway.json            builder = DOCKERFILE
 vite.config.js          `allowedHosts` para Railway + dominio propio
@@ -176,10 +176,11 @@ con Bash.
 
 ## Skills del proyecto
 
-Cuatro skills en `.claude/skills/` cubren el ciclo de trabajo de punta a punta:
+Cinco skills en `.claude/skills/` cubren el ciclo de trabajo de punta a punta:
 
 ```
-idea difusa → brainstorming → design-spec → [aprobación] → design-plan → código → revision-final
+idea difusa → brainstorming → design-spec → [aprobación] → design-plan
+            → código → verify-after-changes → revision-final → deploy
 ```
 
 Úsalas en ese orden; no improvises el proceso que ya está documentado ahí. Y no
@@ -233,6 +234,22 @@ un commit, cada una dejando el sitio funcionando y con su forma de verificarse.
 
 Requiere un spec aprobado. Si al planear aparece un hueco en el spec, se vuelve
 a `design-spec` a cerrarlo — no se rellena desde el plan.
+
+### `verify-after-changes` — al **terminar** de implementar el plan
+
+Cierra el ciclo del feature: levanta el servidor local, elige 5 casos de prueba
+importantes y los prueba **de verdad en el navegador** (leer el código no es
+probar), contrasta el resultado contra el plan y el spec, arregla lo que falle
+y da luz verde solo cuando pasa todo.
+
+Los 5 casos se reparten en camino principal, móvil, un estado vacío, un caso de
+error de la sección 6 del spec, y la regla de negocio más crítica — cuando el
+feature toca inventario, que `costo_compra` no llegue nunca al frontend público.
+
+A diferencia de `revision-final`, este skill **sí arregla** lo que encuentre,
+pero solo dentro del alcance de la v1: si el arreglo cambia el alcance o
+contradice el spec, para y pregunta.
+
 
 ### `revision-final` — antes de **entregar** o desplegar
 
