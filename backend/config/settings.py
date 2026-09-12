@@ -91,6 +91,12 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Fotos de los equipos. En la tarea 4 del plan esto pasa a Cloudflare R2; mientras
+# tanto se guardan en disco local, que en Railway es efímero y por eso no puede ser
+# la solución final.
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # El build de Vite queda un nivel arriba del backend (dist/ en la raíz del repo).
 DIST_DIR = BASE_DIR.parent / 'dist'
 
