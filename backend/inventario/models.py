@@ -9,7 +9,7 @@ nombra. Ver la directriz 4 de CLAUDE.md.
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from . import choices
+from . import choices, imagenes
 
 
 class EquipoComputo(models.Model):
@@ -155,7 +155,10 @@ class FotoEquipo(models.Model):
     equipo = models.ForeignKey(
         EquipoComputo, related_name='fotos', on_delete=models.CASCADE
     )
-    imagen = models.ImageField(upload_to='equipos/')
+    imagen = models.ImageField('foto (vista de detalle)', upload_to='equipos/')
+    miniatura = models.ImageField(
+        'foto (versión para la tarjeta)', upload_to='equipos/', blank=True
+    )
     orden = models.PositiveSmallIntegerField(default=0)
     creado_en = models.DateTimeField(auto_now_add=True)
 
@@ -166,3 +169,13 @@ class FotoEquipo(models.Model):
 
     def __str__(self):
         return f'Foto {self.orden} de {self.equipo_id}'
+
+    def save(self, *args, **kwargs):
+        # Solo se optimiza lo que acaba de llegar del celular. Una foto ya guardada
+        # (que ya es .webp) no se vuelve a procesar en cada guardado.
+        if self.imagen and not self.imagen.name.lower().endswith('.webp'):
+            original = self.imagen
+            self.miniatura = imagenes.version_miniatura(original)
+            self.imagen = imagenes.version_detalle(original)
+
+        super().save(*args, **kwargs)

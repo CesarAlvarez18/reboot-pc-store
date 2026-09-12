@@ -14,13 +14,14 @@ de la SPA, y de ahí en adelante el router de React decide qué mostrar.
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import include, path, re_path
 
 from .views import health, spa
 
 urlpatterns = [
     path('django-admin/', admin.site.urls),
     path('api/health/', health, name='health'),
+    path('api/', include('inventario.urls')),
 ]
 
 # Solo en desarrollo: en producción las fotos las sirve el almacenamiento remoto.

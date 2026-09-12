@@ -1,6 +1,4 @@
 # Dependencias del backend de Reboot PC Store.
-# Las de almacenamiento remoto de fotos (django-storages, boto3) entran en la
-# tarea 4 del plan.
 
 Django~=5.1.0
 djangorestframework~=3.15.0
@@ -12,3 +10,6 @@ whitenoise~=6.8.0
 # Pillow lo exige ImageField de Django, así que entra junto con el modelo de fotos
 # y no en la tarea 4 como decía el plan.
 Pillow~=11.0.0
+
+# Almacenamiento de las fotos en Cloudflare R2, que habla el protocolo de S3.
+django-storages[s3]~=1.14.4

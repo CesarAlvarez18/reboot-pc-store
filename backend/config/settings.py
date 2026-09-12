@@ -118,6 +118,32 @@ STORAGES = {
     },
 }
 
+# Las fotos van a Cloudflare R2, que habla el protocolo de S3. Sin las variables
+# configuradas se guardan en disco local, lo que sirve para desarrollo pero NO para
+# Railway: allá el disco se borra en cada despliegue y las fotos se perderían.
+R2_BUCKET = env('R2_BUCKET', default='')
+
+if R2_BUCKET:
+    STORAGES['default'] = {
+        'BACKEND': 'storages.backends.s3.S3Storage',
+        'OPTIONS': {
+            'bucket_name': R2_BUCKET,
+            'endpoint_url': env('R2_ENDPOINT_URL'),
+            'access_key': env('R2_ACCESS_KEY_ID'),
+            'secret_key': env('R2_SECRET_ACCESS_KEY'),
+            'region_name': 'auto',
+            'signature_version': 's3v4',
+            # R2 no implementa las ACLs por objeto de S3: mandarlas hace fallar la
+            # subida. El bucket se expone por su dominio público y las URLs van sin
+            # firmar, porque son fotos de un catálogo abierto.
+            'default_acl': None,
+            'querystring_auth': False,
+            # Dos equipos con una foto del mismo nombre no deben pisarse.
+            'file_overwrite': False,
+            'custom_domain': env('R2_PUBLIC_DOMAIN', default=None),
+        },
+    }
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # El frontend y la API comparten origen (un solo servicio en Railway), así que la
