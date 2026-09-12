@@ -26,6 +26,19 @@ DEBUG = env('DEBUG')
 
 # Los mismos hosts que ya declara vite.config.js para el preview de Railway.
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+
+# Railway consulta el healthcheck con el header `Host: healthcheck.railway.app`,
+# que no lo cubre `.up.railway.app` (el sufijo es distinto). Sin esta línea Django
+# responde 400 (DisallowedHost), el chequeo nunca pasa y el despliegue se marca
+# como fallido aunque la aplicación esté funcionando perfectamente.
+#
+# Va acá y no en la variable de entorno a propósito: es infraestructura de la
+# plataforma, no configuración del negocio, y no debería depender de que alguien
+# recuerde agregar un hostname a mano en cada entorno nuevo.
+HOST_DEL_HEALTHCHECK = 'healthcheck.railway.app'
+if HOST_DEL_HEALTHCHECK not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(HOST_DEL_HEALTHCHECK)
+
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS')
 
 INSTALLED_APPS = [
