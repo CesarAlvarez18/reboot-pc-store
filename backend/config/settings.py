@@ -24,8 +24,21 @@ environ.Env.read_env(BASE_DIR / '.env')
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
+def _lista_limpia(valores):
+    """
+    Quita espacios sobrantes de una lista que vino de una variable de entorno.
+
+    `django-environ` parte por comas pero no recorta: escribir
+    "rebootpcstore.com, www.rebootpcstore.com" produce un host con un espacio
+    adelante que no coincide con nada, y Django responde 400 sin explicar por qué.
+    En el panel de Railway ese espacio es invisible, así que el fallo parece magia
+    negra. Mejor tolerarlo que depender de escribirlo perfecto.
+    """
+    return [valor.strip() for valor in valores if valor.strip()]
+
+
 # Los mismos hosts que ya declara vite.config.js para el preview de Railway.
-ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+ALLOWED_HOSTS = _lista_limpia(env('ALLOWED_HOSTS'))
 
 # Railway consulta el healthcheck con el header `Host: healthcheck.railway.app`,
 # que no lo cubre `.up.railway.app` (el sufijo es distinto). Sin esta línea Django
@@ -39,7 +52,7 @@ HOST_DEL_HEALTHCHECK = 'healthcheck.railway.app'
 if HOST_DEL_HEALTHCHECK not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(HOST_DEL_HEALTHCHECK)
 
-CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS')
+CSRF_TRUSTED_ORIGINS = _lista_limpia(env('CSRF_TRUSTED_ORIGINS'))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
