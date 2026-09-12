@@ -39,9 +39,10 @@ src/data/content.js     TODO el copy y los datos de la landing (centralizado)
 src/index.css           directivas de Tailwind + estilos base
 public/                 robots.txt, sitemap.xml
 docs/specs/             especificaciones de features (YYYY-MM-DD-titulo.md)
+docs/plans/             planes de implementación (mismo slug que su spec)
 .claude/launch.json     config del dev server para el preview (puerto 5173)
-.claude/skills/         skills del proyecto: `brainstorming` (definir un feature),
-                        `design-spec` (escribir el spec), `revision-final` (QA)
+.claude/skills/         skills del proyecto: `brainstorming`, `design-spec`,
+                        `design-plan`, `revision-final`
 Dockerfile              build de producción para Railway
 railway.json            builder = DOCKERFILE
 vite.config.js          `allowedHosts` para Railway + dominio propio
@@ -175,9 +176,14 @@ con Bash.
 
 ## Skills del proyecto
 
-Tres skills en `.claude/skills/` cubren el ciclo de trabajo de punta a punta:
-definir → especificar → verificar. Úsalas; no improvises el proceso que ya
-está documentado ahí.
+Cuatro skills en `.claude/skills/` cubren el ciclo de trabajo de punta a punta:
+
+```
+idea difusa → brainstorming → design-spec → [aprobación] → design-plan → código → revision-final
+```
+
+Úsalas en ese orden; no improvises el proceso que ya está documentado ahí. Y no
+te saltes pasos: un feature nuevo no arranca en código.
 
 ### `brainstorming` — al **empezar** un feature
 
@@ -206,13 +212,27 @@ la guarda en `docs/specs/YYYY-MM-DD-titulo.md`, con seis secciones fijas:
 Overview, Usuarios objetivo, Contexto del problema, Alcance v1, Comportamiento
 esperado, y Posibles errores y mitigaciones.
 
-Entra después de `brainstorming` (o cuando el usuario ya sabe qué quiere y pide
-dejarlo por escrito). **Regla central: nada de implementación** — describe
-comportamiento observable, no arquitectura, esquemas ni código. El documento
-tiene que poder validarlo el usuario, no solo quien lee el repo.
+**Regla central: nada de implementación** — describe comportamiento observable,
+no arquitectura, esquemas ni código. El documento tiene que poder validarlo el
+dueño del negocio, no solo quien lee el repo.
 
-No es el plan técnico de implementación; ese viene después de que el spec se
-apruebe.
+Termina en un **approval gate**: el usuario aprueba (y se pasa a `design-plan`),
+pide iterar (se edita el mismo archivo y se vuelve a preguntar), o lo deja
+pendiente. El spec **nunca** se da por aprobado implícitamente.
+
+### `design-plan` — una vez el spec está **aprobado**
+
+Traduce el spec en el plan técnico de implementación, en
+`docs/plans/YYYY-MM-DD-titulo.md` (mismo slug que su spec, fecha del día), con
+cuatro secciones: Objetivo, Contexto del problema, Spec de referencia, y Tareas
+a implementar.
+
+Es la contraparte del spec: acá **sí** van rutas de archivos, nombres de
+componentes, dependencias y esquemas. Las tareas van ordenadas, del tamaño de
+un commit, cada una dejando el sitio funcionando y con su forma de verificarse.
+
+Requiere un spec aprobado. Si al planear aparece un hueco en el spec, se vuelve
+a `design-spec` a cerrarlo — no se rellena desde el plan.
 
 ### `revision-final` — antes de **entregar** o desplegar
 

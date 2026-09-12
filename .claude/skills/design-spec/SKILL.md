@@ -91,6 +91,21 @@ Una mitigación que sea "mostrar un error" no es una mitigación: di qué dice e
 1. Escribe el archivo y dile al usuario la ruta exacta.
 2. Resume en 3 o 4 líneas las decisiones que tomaste por tu cuenta al redactar — los supuestos que llenaron huecos de la conversación. Es lo que el usuario necesita revisar con más cuidado.
 3. Señala lo que quedó **pendiente de confirmar** con el negocio, si algo quedó así (precios, tiempos de garantía, quién responde el WhatsApp).
-4. Pregunta si el spec refleja lo que quiere, y ofrece pasar al plan de implementación.
 
-**No implementes nada en el mismo turno.** Este skill entrega un documento para validar, no el feature. Si el usuario pide cambios al spec, edítalos en el mismo archivo — no crees una versión nueva con otra fecha.
+## Paso 4: Approval gate
+
+El spec no avanza solo. Después de entregarlo, **pregunta explícitamente con `AskUserQuestion`** si lo aprueba, con estas tres opciones:
+
+- **Aprobar y armar el plan** — el spec refleja lo que quiere.
+- **Iterar el spec** — hay algo que cambiar, quitar o agregar.
+- **Dejarlo ahí por ahora** — queda escrito para revisarlo después.
+
+Qué hacer con cada respuesta:
+
+**Si aprueba:** corre la skill `design-plan`, que traduce este spec en el plan técnico de implementación (`docs/plans/YYYY-MM-DD-titulo.md`). Pásale la ruta del spec aprobado. No empieces a implementar directamente: entre el spec y el código va el plan.
+
+**Si pide iterar:** edita **el mismo archivo** — no crees una versión nueva con otra fecha, o terminan cinco specs del mismo feature sin saber cuál rige. Aplica los cambios, di en una o dos líneas qué quedó distinto, y **vuelve a preguntar**. El gate se repite tantas veces como haga falta; el spec no se da por aprobado por cansancio ni porque el usuario dejó de objetar.
+
+**Si lo deja pendiente:** confirma que el archivo queda guardado en su ruta y no hagas nada más.
+
+**Nunca des el spec por aprobado implícitamente.** Un "está bien" o "dale" ambiguo en medio de otra conversación no es la aprobación: si hay duda, pregunta de nuevo. Y **no implementes nada en el mismo turno** — este skill entrega un documento para validar, no el feature.
