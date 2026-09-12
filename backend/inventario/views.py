@@ -6,12 +6,17 @@ spec pide que quien no haya ingresado no pueda ni siquiera saber qué hay en bod
 La única excepción es el ingreso, y el endpoint que entrega la cookie CSRF.
 """
 
+from datetime import timedelta
+
 from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.db.models import Q
 from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.exceptions import ValidationError
+from rest_framework.generics import ListAPIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -20,6 +25,7 @@ from .models import EquipoComputo, FotoEquipo
 from .serializers import (
     CambioEstadoSerializer,
     EquipoInternoSerializer,
+    EquipoPublicoSerializer,
     FotoEquipoSerializer,
     FotoSubidaSerializer,
 )
@@ -155,3 +161,43 @@ class FotoViewSet(
 
     queryset = FotoEquipo.objects.all()
     serializer_class = FotoEquipoSerializer
+
+
+# --- Lo único que ve el sitio público ---
+
+
+DIAS_QUE_SIGUE_VISIBLE_UN_VENDIDO = 7
+
+
+class PaginacionVitrina(PageNumberPagination):
+    """Nueve equipos, que es lo que muestra la sección antes del botón de ver más."""
+
+    page_size = 9
+    page_size_query_param = 'por_pagina'
+    max_page_size = 36
+
+
+class EquiposPublicosView(ListAPIView):
+    """
+    Los equipos que el cliente ve en la landing.
+
+    Un equipo vendido no desaparece de golpe: sigue apareciendo con su sello
+    durante una semana y después se cae solo. Eso se resuelve filtrando acá y no
+    con una tarea programada, que sería una pieza más que puede quedarse colgada.
+    """
+
+    permission_classes = [AllowAny]
+    serializer_class = EquipoPublicoSerializer
+    pagination_class = PaginacionVitrina
+
+    def get_queryset(self):
+        limite = timezone.now() - timedelta(days=DIAS_QUE_SIGUE_VISIBLE_UN_VENDIDO)
+
+        return (
+            EquipoComputo.objects.filter(
+                Q(estado=EquipoComputo.Estado.PUBLICADO)
+                | Q(estado=EquipoComputo.Estado.VENDIDO, fecha_venta__gte=limite)
+            )
+            .prefetch_related('fotos')
+            .order_by('-creado_en')
+        )

@@ -95,6 +95,54 @@ class EquipoInternoSerializer(serializers.ModelSerializer):
         return datos
 
 
+class EquipoPublicoSerializer(serializers.ModelSerializer):
+    """
+    Lo único que el sitio público llega a saber de un equipo.
+
+    Los campos se listan uno por uno a propósito. Nunca usar `exclude` acá: con
+    `exclude`, un campo nuevo en el modelo se volvería público por olvido, y el
+    campo que se filtraría algún día es justamente `costo_compra`.
+    """
+
+    marca = serializers.CharField(source='marca_visible', read_only=True)
+    procesador = serializers.CharField(source='procesador_visible', read_only=True)
+    resumen_specs = serializers.CharField(read_only=True)
+    almacenamiento = serializers.CharField(source='almacenamiento_legible', read_only=True)
+    ram = serializers.CharField(source='ram_legible', read_only=True)
+    estado_bateria = serializers.CharField(
+        source='get_estado_bateria_display', read_only=True
+    )
+    # El número sigue existiendo, pero al cliente se le dice en palabras.
+    estado_estetico_texto = serializers.CharField(
+        source='estado_estetico_publico', read_only=True
+    )
+    vendido = serializers.SerializerMethodField()
+    fotos = FotoEquipoSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = EquipoComputo
+        fields = [
+            'id',
+            'marca',
+            'procesador',
+            'ram',
+            'almacenamiento',
+            'resumen_specs',
+            'estado_bateria',
+            'estado_estetico',
+            'estado_estetico_texto',
+            'garantia_meses',
+            'precio_venta',
+            'notas_fallas',
+            'fotos',
+            'vendido',
+            'creado_en',
+        ]
+
+    def get_vendido(self, equipo):
+        return equipo.estado == EquipoComputo.Estado.VENDIDO
+
+
 class CambioEstadoSerializer(serializers.Serializer):
     """Publicar, despublicar o marcar vendido."""
 

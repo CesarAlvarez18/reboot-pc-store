@@ -159,3 +159,28 @@ export const socialLinks = [
   { label: 'Instagram', href: 'https://instagram.com', icon: 'Instagram' },
   { label: 'TikTok', href: 'https://tiktok.com', icon: 'Music2' },
 ];
+
+// Copy del panel interno de inventario (/dashboard). Va acá por la misma razón que
+// el resto: el texto se edita en un solo lugar, no dentro de los componentes.
+export const panelContent = {
+  ingreso: {
+    titulo: 'Inventario Reboot',
+    subtitulo: 'Ingresa con tu cuenta para registrar equipos.',
+    correo: 'Correo',
+    contrasena: 'Contraseña',
+    boton: 'Ingresar',
+    botonCargando: 'Ingresando…',
+    sinCuenta: 'Las cuentas las crea el administrador. Si no tienes uno, pídeselo.',
+    volver: 'Volver al sitio',
+  },
+  panel: {
+    titulo: 'Inventario',
+    salir: 'Cerrar sesión',
+    vacio: {
+      titulo: 'Todavía no hay equipos registrados',
+      descripcion:
+        'Acá quedan los computadores usados que entran a bodega, con sus fotos, su estado y su precio, listos para publicarse en la tienda.',
+      boton: 'Registrar el primer equipo',
+    },
+  },
+};

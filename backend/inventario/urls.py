@@ -10,6 +10,8 @@ router.register('equipos', views.EquipoViewSet, basename='equipo')
 router.register('fotos', views.FotoViewSet, basename='foto')
 
 urlpatterns = [
+    # Lo único abierto al público, aparte del ingreso.
+    path('publico/equipos/', views.EquiposPublicosView.as_view(), name='equipos-publicos'),
     path('auth/ingresar/', views.ingresar, name='ingresar'),
     path('auth/salir/', views.salir, name='salir'),
     path('auth/yo/', views.yo, name='yo'),
