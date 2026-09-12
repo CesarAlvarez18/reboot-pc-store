@@ -48,7 +48,8 @@ export default function UsadoDetalle({ equipo, onCerrar }) {
             type="button"
             onClick={onCerrar}
             aria-label={copy.cerrar}
-            className="shrink-0 rounded-lg p-2 text-slate-400 transition hover:text-white"
+            // 44px es el mínimo cómodo para el pulgar; con p-2 quedaba en 36.
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:text-white"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
