@@ -38,9 +38,10 @@ src/components/         Navbar, Hero, Services, Store, HowItWorks,
 src/data/content.js     TODO el copy y los datos de la landing (centralizado)
 src/index.css           directivas de Tailwind + estilos base
 public/                 robots.txt, sitemap.xml
+docs/specs/             especificaciones de features (YYYY-MM-DD-titulo.md)
 .claude/launch.json     config del dev server para el preview (puerto 5173)
-.claude/skills/         skills del proyecto: `brainstorming` (definir un feature
-                        nuevo), `revision-final` (QA antes de publicar)
+.claude/skills/         skills del proyecto: `brainstorming` (definir un feature),
+                        `design-spec` (escribir el spec), `revision-final` (QA)
 Dockerfile              build de producción para Railway
 railway.json            builder = DOCKERFILE
 vite.config.js          `allowedHosts` para Railway + dominio propio
@@ -174,8 +175,9 @@ con Bash.
 
 ## Skills del proyecto
 
-Dos skills en `.claude/skills/` cubren los dos extremos del ciclo de trabajo.
-Úsalas; no improvises el proceso que ya está documentado ahí.
+Tres skills en `.claude/skills/` cubren el ciclo de trabajo de punta a punta:
+definir → especificar → verificar. Úsalas; no improvises el proceso que ya
+está documentado ahí.
 
 ### `brainstorming` — al **empezar** un feature
 
@@ -196,6 +198,21 @@ existe, ni cuando el approach ya está elegido.
 > No confundir con la skill global `anthropic-skills:brainstorming`, que es
 > ideación genérica. La del proyecto es específica de features de este repo y
 > siempre termina en una decisión de approach.
+
+### `design-spec` — cuando el objetivo ya está **claro**
+
+Escribe la especificación del feature **desde el punto de vista del usuario** y
+la guarda en `docs/specs/YYYY-MM-DD-titulo.md`, con seis secciones fijas:
+Overview, Usuarios objetivo, Contexto del problema, Alcance v1, Comportamiento
+esperado, y Posibles errores y mitigaciones.
+
+Entra después de `brainstorming` (o cuando el usuario ya sabe qué quiere y pide
+dejarlo por escrito). **Regla central: nada de implementación** — describe
+comportamiento observable, no arquitectura, esquemas ni código. El documento
+tiene que poder validarlo el usuario, no solo quien lee el repo.
+
+No es el plan técnico de implementación; ese viene después de que el spec se
+apruebe.
 
 ### `revision-final` — antes de **entregar** o desplegar
 
