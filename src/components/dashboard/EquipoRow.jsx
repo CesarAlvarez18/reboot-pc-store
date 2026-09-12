@@ -48,7 +48,7 @@ export default function EquipoRow({ equipo, onCambiarEstado, cambiando, error })
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="font-display font-semibold">{equipo.marca_visible}</h3>
+            <h3 className="break-words font-display font-semibold">{equipo.marca_visible}</h3>
             <span
               className={`rounded-md px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
                 ESTILO_ESTADO[equipo.estado]

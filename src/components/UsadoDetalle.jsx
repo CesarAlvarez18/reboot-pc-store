@@ -104,7 +104,9 @@ export default function UsadoDetalle({ equipo, onCerrar }) {
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                 {copy.notas}
               </p>
-              <p className="mt-2 text-sm text-slate-300">{equipo.notas_fallas}</p>
+              <p className="mt-2 whitespace-pre-line break-words text-sm text-slate-300">
+                {equipo.notas_fallas}
+              </p>
             </div>
           )}
 

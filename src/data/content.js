@@ -242,6 +242,9 @@ export const formularioEquipo = {
     obligatorio: 'Este campo es obligatorio.',
     sinFotos: 'Agrega al menos una foto del equipo.',
     guardar: 'No pudimos guardar el equipo. Revisa los campos marcados.',
+    sinOpciones:
+      'No pudimos cargar las listas del formulario. Revisa tu conexión e intenta de nuevo.',
+    reintentar: 'Reintentar',
   },
   avisos: {
     perdidaTitulo: 'El precio queda por debajo del costo',

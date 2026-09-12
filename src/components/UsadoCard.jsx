@@ -41,8 +41,19 @@ export default function UsadoCard({ equipo, onAbrir }) {
         </div>
 
         <div className="flex flex-1 flex-col p-5">
-          <h3 className="font-display text-lg font-semibold text-white">{equipo.marca}</h3>
-          <p className="mt-1 text-sm text-slate-400">{equipo.resumen_specs}</p>
+          {/* break-words y line-clamp: una marca escrita a mano o unas notas muy
+              largas no pueden desarmar la cuadrícula de la sección. El texto
+              completo está en el detalle, que se abre tocando la tarjeta. */}
+          <h3 className="break-words font-display text-lg font-semibold text-white">
+            {equipo.marca}
+          </h3>
+          <p className="mt-1 break-words text-sm text-slate-400">{equipo.resumen_specs}</p>
+
+          {equipo.notas_fallas && (
+            <p className="mt-2 line-clamp-2 break-words text-xs text-slate-500">
+              {equipo.notas_fallas}
+            </p>
+          )}
 
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
             <span className="rounded-lg bg-white/5 px-2.5 py-1 text-slate-300">

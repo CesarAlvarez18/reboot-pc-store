@@ -59,11 +59,25 @@ export default function EquipoForm() {
   const [guardando, setGuardando] = useState(false);
   const [equipoCreado, setEquipoCreado] = useState(null);
   const [registrados, setRegistrados] = useState([]);
+  const [errorOpciones, setErrorOpciones] = useState(false);
 
   const contenedor = useRef(null);
 
+  async function cargarOpciones() {
+    setErrorOpciones(false);
+    try {
+      setOpciones(await api.opciones());
+    } catch {
+      // Sin las listas, el formulario seria una fila de desplegables vacios: mejor
+      // decir que no cargo y ofrecer reintentar.
+      setErrorOpciones(true);
+    }
+  }
+
   useEffect(() => {
-    api.opciones().then(setOpciones).catch(() => setOpciones({}));
+    cargarOpciones();
+    // El listado solo alimenta el aviso de posible duplicado: si falla, el
+    // formulario sigue siendo perfectamente usable.
     api.equipos().then(setRegistrados).catch(() => setRegistrados([]));
   }, []);
 
@@ -257,6 +271,24 @@ export default function EquipoForm() {
       setErrorGeneral(fallo.message);
       setGuardando(false);
     }
+  }
+
+  if (errorOpciones) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-brand-dark px-6 text-center">
+        <p className="max-w-sm text-slate-300">{copy.errores.sinOpciones}</p>
+        <button
+          type="button"
+          onClick={cargarOpciones}
+          className="rounded-xl bg-brand-cyan px-5 py-3 font-semibold text-brand-darker transition hover:brightness-110"
+        >
+          {copy.errores.reintentar}
+        </button>
+        <Link to="/dashboard" className="text-sm text-brand-cyan hover:underline">
+          {copy.volver}
+        </Link>
+      </div>
+    );
   }
 
   if (!opciones) {
