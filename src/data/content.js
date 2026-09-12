@@ -183,6 +183,31 @@ export const panelContent = {
       boton: 'Registrar el primer equipo',
     },
   },
+  listado: {
+    nuevo: 'Registrar equipo',
+    buscar: 'Buscar por marca o procesador',
+    filtros: [
+      { valor: 'todos', etiqueta: 'Todos' },
+      { valor: 'borrador', etiqueta: 'Borradores' },
+      { valor: 'publicado', etiqueta: 'Publicados' },
+      { valor: 'vendido', etiqueta: 'Vendidos' },
+    ],
+    precio: 'Precio',
+    costo: 'Costo',
+    margen: 'Margen',
+    acciones: {
+      publicar: 'Publicar',
+      despublicar: 'Quitar de la tienda',
+      marcarVendido: 'Marcar vendido',
+      volverAPublicar: 'Volver a publicar',
+    },
+    sinResultados: {
+      titulo: 'Ningún equipo coincide con esa búsqueda',
+      boton: 'Limpiar la búsqueda',
+    },
+    errorCargar: 'No pudimos cargar el inventario. Revisa tu conexión e intenta de nuevo.',
+    reintentar: 'Reintentar',
+  },
 };
 
 // Copy del formulario de registro de equipos. Igual que el resto del contenido,
@@ -232,4 +257,37 @@ export const formularioEquipo = {
   boton: 'Guardar equipo',
   botonGuardando: 'Guardando…',
   exito: 'Equipo guardado como borrador.',
+};
+
+// Copy de la sección pública "Usados disponibles", alimentada por el inventario.
+// Convive a propósito con productCategories: esas tres categorías siguen siendo
+// contenido fijo, y esta sección muestra lo que de verdad hay en bodega.
+export const usadosContent = {
+  eyebrow: 'Inventario real',
+  titulo: 'Usados disponibles ahora',
+  descripcion:
+    'Equipos revisados por nuestros técnicos, con fotos reales del estado en que están. Lo que ves acá es lo que hay hoy en bodega.',
+  verMas: 'Ver más equipos',
+  verDetalle: 'Ver detalles',
+  vendido: 'Vendido',
+  garantiaSufijo: 'de garantía',
+  bateria: 'Batería',
+  almacenamiento: 'Almacenamiento',
+  notas: 'Lo que encontró el técnico',
+  whatsapp: 'Preguntar por este equipo',
+  cerrar: 'Cerrar',
+  fotoNoDisponible: 'Foto no disponible',
+  vacio: {
+    titulo: 'Ahora mismo no tenemos usados publicados',
+    descripcion:
+      'A bodega entran equipos cada semana. Cuéntanos qué estás buscando y te avisamos apenas llegue uno que te sirva.',
+    boton: 'Contarnos qué busco',
+    mensaje: 'Hola, estoy buscando un computador usado. ¿Qué tienen disponible?',
+  },
+  error: {
+    titulo: 'No pudimos cargar los equipos en este momento',
+    descripcion: 'Pregúntanos directamente por WhatsApp qué hay disponible y te contamos.',
+    boton: 'Preguntar por WhatsApp',
+    mensaje: 'Hola, quiero saber qué computadores usados tienen disponibles.',
+  },
 };

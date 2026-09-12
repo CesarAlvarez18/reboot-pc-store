@@ -96,5 +96,7 @@ export const api = {
     formulario.append('orden', String(orden));
     return pedir(`/equipos/${idEquipo}/fotos/`, { metodo: 'POST', formulario });
   },
+  cambiarEstado: (idEquipo, estado) =>
+    pedir(`/equipos/${idEquipo}/estado/`, { metodo: 'PATCH', datos: { estado } }),
   equiposPublicos: () => pedir('/publico/equipos/'),
 };

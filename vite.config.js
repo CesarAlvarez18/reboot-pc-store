@@ -13,6 +13,13 @@ export default defineConfig({
         target: 'http://127.0.0.1:8000',
         changeOrigin: false,
       },
+      // Las fotos de los equipos. En producción las sirve Cloudflare R2 con su
+      // propio dominio; en local salen del disco a través de Django, y sin este
+      // proxy la vitrina mostraría el marcador de "foto no disponible".
+      '/media': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: false,
+      },
     },
   },
   preview: {

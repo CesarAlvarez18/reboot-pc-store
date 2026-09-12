@@ -4,13 +4,7 @@
 // sin eso, distinguir 1450000 de 145000 en la pantalla de un celular es fácil de
 // equivocar, y ese error se publica como precio.
 
-const formateador = new Intl.NumberFormat('es-CO');
-
-export function formatearPesos(valor) {
-  const numero = Number(valor);
-  if (!Number.isFinite(numero) || valor === '' || valor === null) return '';
-  return formateador.format(numero);
-}
+import { formatearPesos } from '../../lib/formato';
 
 export default function CampoMoneda({
   id,

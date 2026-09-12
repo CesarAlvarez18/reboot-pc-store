@@ -6,7 +6,8 @@ import { api, ErrorDeApi } from '../../lib/api';
 import { formularioEquipo as copy } from '../../data/content';
 import SelectDropdown from '../../components/ui/SelectDropdown';
 import RatingScale from '../../components/ui/RatingScale';
-import CampoMoneda, { formatearPesos } from '../../components/ui/CampoMoneda';
+import CampoMoneda from '../../components/ui/CampoMoneda';
+import { formatearPesos } from '../../lib/formato';
 import ImageUploader, { validarArchivo, MAXIMO_FOTOS } from '../../components/ui/ImageUploader';
 
 const VACIO = {
