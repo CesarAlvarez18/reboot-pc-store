@@ -4,3 +4,15 @@ dist
 .github
 .claude
 *.log
+
+# Backend
+.venv
+backend/.venv
+backend/.env
+backend/staticfiles
+__pycache__
+*.pyc
+
+# Documentación del proyecto: no se despliega
+docs
+*.md

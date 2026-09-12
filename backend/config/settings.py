@@ -41,6 +41,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise sirve el dist/ de Vite y los assets del panel de Django sin
+    # necesidad de un servidor web aparte: un solo proceso para todo el sitio.
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -87,6 +90,27 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# El build de Vite queda un nivel arriba del backend (dist/ en la raíz del repo).
+DIST_DIR = BASE_DIR.parent / 'dist'
+
+# WHITENOISE_ROOT sirve el contenido de dist/ desde la raíz del dominio, no desde
+# /static/. Es lo que mantiene funcionando /robots.txt y /sitemap.xml, de los que
+# depende el SEO ya configurado, y las rutas /assets/... que genera Vite.
+WHITENOISE_ROOT = DIST_DIR
+WHITENOISE_INDEX_FILE = True
+
+# Los nombres de archivo de Vite ya vienen con hash, así que no hace falta el
+# almacenamiento con manifiesto: comprimir alcanza y evita que el build falle por
+# una referencia que el manifiesto no logre resolver.
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
